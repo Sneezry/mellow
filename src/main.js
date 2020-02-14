@@ -113,7 +113,8 @@ switch (process.platform) {
       'geosite.dat',
       'core',
       'md5sum',
-      'route'
+      'route',
+      'trojan'
     ]
     break
   case 'linux':
@@ -123,7 +124,8 @@ switch (process.platform) {
       'geosite.dat',
       'core',
       'md5sum',
-      'ip'
+      'ip',
+      'trojan'
     ]
     break
 }
@@ -159,17 +161,20 @@ switch(process.platform) {
     md5Cmd = path.join(helperInstallPath, 'md5sum')
     coreCmd = path.join(helperInstallPath, 'core')
     routeCmd = path.join(helperInstallPath, 'ip')
+    trojanCmd = path.join(helperInstallPath, 'trojan')
     break
   case 'darwin':
     md5Cmd = path.join(helperInstallPath, 'md5sum')
     coreCmd = path.join(helperInstallPath, 'core')
     routeCmd = path.join(helperInstallPath, 'route')
+    trojanCmd = path.join(helperInstallPath, 'trojan')
     break
   case 'win32':
     coreCmd = path.join(helperResourcePath, 'core.exe')
     trojanCmd = path.join(helperResourcePath, 'trojan', 'trojan.exe')
     break
 }
+
 
 let running = false
 let helperVerified = false
@@ -366,7 +371,6 @@ function startTrojan() {
         trojan = null
         log.info(err)
       })
-      log.info('Trojan started with config file: ' + trojanConfigFilePath)
       trojanProcessors.push(trojan)
     }
   }
@@ -379,7 +383,6 @@ function stopTrojan() {
         spawn('taskkill', ['/pid', trojanProcessor.pid, '/f', '/t'])
       } else {
         trojanProcessor.kill('SIGTERM')
-        trojanProcessor = null
       }
     }
   }
